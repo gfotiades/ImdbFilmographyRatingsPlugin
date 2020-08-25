@@ -1,0 +1,13 @@
+{
+	"name": "IMDB Filmography Ratings Plugin",
+	"version": "1.0",
+	"description": "List ratings of filmography on actor/actress/director page",
+	"manifest_version": 2,
+	"permissions": ["tabs", "*://*.imdb.com/name/*"],
+  	"content_scripts": [
+    {
+		"matches": ["*://*.imdb.com/name/*"],
+		"run_at": "document_idle",
+		"js": ["onload.js"]
+    }]
+}
