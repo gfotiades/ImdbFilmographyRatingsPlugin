@@ -1,21 +1,6 @@
 
 'use strict';
 
-function getAnchor(object) {
-	if (object != null)
-	{
-		var children = object.children;
-		for (var i = 0 ; i < children.length ; ++i)
-		{
-			if (children[i].tagName == "A")
-			{
-				return children[i];
-			}
-		}
-	}
-	return null;
-}
-
 var t1 = document.getElementsByClassName("filmo-row even");
 var t2 = document.getElementsByClassName("filmo-row odd");
 var title_objects = new Array(t1.length + t2.length);
