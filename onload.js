@@ -60,10 +60,29 @@ async function addRating(isEpisode, addr, rowItem)
 	const result = await response.text();
 	var parser = new DOMParser();
 	var doc = parser.parseFromString(result, 'text/html');
-	var rv = doc.getElementsByClassName("ratingValue");
-	if (rv.length >= 1 && rv[0].children.length >= 1 && rv[0].children[0].children.length >= 1)
+	//var rv = doc.getElementsByClassName("ratingValue"); // Old div, rating at: rv[0].children[0].children[0].innerHTML;
+
+	//var rating1StartTime = performance.now()
+	var rv = doc.getElementsByClassName("ipc-button__text");
+
+	// This should trigger at idx 6, not sure if that's always the case though
+	var rating1 = null
+	for (var i = 0 ; i < rv.length ; ++i)
 	{
-		var ri = rv[0].children[0].children[0];
+		var query_lst = rv[i].querySelectorAll("div[data-testid='hero-rating-bar__aggregate-rating__score']");
+		if (query_lst.length > 0)
+		{
+			rating1 = query_lst[0].firstChild.innerHTML;
+			break
+		}
+	}
+	//var rating1EndTime = performance.now()
+	//console.log(`Rating1: ${rating1EndTime-rating1StartTime}ms`)
+	//console.log(`Rating2: ${rating2EndTime-rating2StartTime}ms`)
+
+	if (rating1 != null)
+	{
+		//console.log("Rating: " + rating1);
 		var targetEl;
 		if (!isEpisode)
 		{
@@ -77,7 +96,7 @@ async function addRating(isEpisode, addr, rowItem)
 			targetEl = rowItem.lastChild.nextSibling;
 		}
 		var newEl = document.createElement("B");
-		newEl.innerHTML = ri.innerHTML;
+		newEl.innerHTML = rating1;
 		var star = createStarElement();
 		rowItem.insertBefore(star, targetEl);
 		rowItem.insertBefore(newEl, targetEl);
